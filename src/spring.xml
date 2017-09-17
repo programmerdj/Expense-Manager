@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    
+  
+ <bean id="dateFormat" class="java.text.SimpleDateFormat">
+    <constructor-arg value="yyyy-MM-dd" />
+  </bean>
+
+<bean id="Transaction" class="com.deepak.beans.Transaction">  
+	<property name="id" value="1"></property>
+  	<property name="description" value="New Expense"></property>
+  	<property name="amount" value="1200.12"></property>
+  	<property name="bank" ref="Bank"></property>
+  	<property name="operation"  value="deposit"></property>
+  	<property name="date" >
+  			<bean factory-bean="dateFormat" factory-method="parse">
+                <constructor-arg value="2010-01-31" />
+            </bean>
+    </property>
+  	
+</bean>  
+
+<bean id="Bank" class="com.deepak.beans.Bank">  
+	<property name="name" value="IDBI"></property>
+  	<property name="balance" value="1200.12"></property>
+</bean>  
+
+<bean name="expenseService" class="com.deepak.service.expenseService"/>
+
+<bean name="loggingAspect" class="com.deepak.aspect.LoggingAspect"/>
+
+<aop:aspectj-autoproxy />
+  	
+</beans> 
